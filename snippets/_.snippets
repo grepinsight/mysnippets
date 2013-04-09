@@ -7,7 +7,7 @@ snippet JOB
 	echo [args] $*
 	echo $* | tr ' ' '\n' | perl -ne 'BEGIN{$i=1};print "\$$i: $_";$i++'
 	time1=$( date "+%s" )	
-	timestamp=$( date "+%m_%d_%I%p' )
+	timestamp=$( date "+%m_%d_%I%p" )
 
 	${2:}
 
