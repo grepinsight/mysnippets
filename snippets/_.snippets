@@ -14,4 +14,12 @@ snippet JOB
 	time2=$( date "+%s" )
 	echo [deltat] $(( $time2 - $time1 ))
 	echo [End] \`date\`
-	
+snippet snip_usage
+	if [[ $# == 0 || "$1" == "h" || "$1" == "-h" ]]; then
+	cat <<EOF
+
+	  USAGE: bowtie_build.sh <REF_FASTA> <PREFIX>
+
+	EOF
+	exit
+	fi
