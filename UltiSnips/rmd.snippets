@@ -1,0 +1,86 @@
+snippet meta
+---
+title: "${1:}"
+author: "${2:Albert Lee}"
+output:
+  html_document:
+    number_sections: yes
+    toc: yes
+    code_folding: hide
+    toc_float: yes
+  html_notebook:
+    number_sections: yes
+    toc: yes
+    code_folding: hide
+    toc_float: yes
+---
+
+**Author**: alee@counsyl.com <br/>
+**Date Created**: `date +%Y-%m-%d` <br/>
+**Date Updated**: \`r Sys.Date()\` </br>
+**Tags**: #has_tag </br>
+**TLDR**: </br>
+**Input(s)**: </br>
+**Output(s)**:</br>
+
+
+${0: # right your contents here}
+endsnippet
+
+snippet libt
+library(tidyverse)
+endsnippet
+
+snippet lib
+# Libs
+
+\`\`\`\{r libs\}
+library(tidyverse)
+\`\`\`
+
+# Funcs
+
+\`\`\`\{r funcs\}
+# Write your functions here
+\`\`\`
+
+# Data
+
+\`\`\`\{r data\}
+df <- read_csv("")
+\`\`\`
+
+# Main
+
+${0}
+
+
+# Conclusion
+
+# Senssion Information
+
+\`\`\`\{r session_info\}
+sessionInfo()
+\`\`\`
+endsnippet
+
+
+
+snippet ccc
+\`\`\`\{r ${1}\}
+
+${0}
+
+\`\`\`
+endsnippet
+
+snippet info
+
+# Session Information
+
+\`\`\`\{r session_info\}
+sessionInfo()
+\`\`\`
+
+endsnippet
+

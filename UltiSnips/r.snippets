@@ -1,0 +1,10 @@
+snippet docopt
+"usage: ${1:SCRIPT_NAME} [ --input-df INPUT_DF]
+
+options:
+--input-df INPUT_DF  ${2:input csv file}]
+" -> doc
+
+library(docopt)
+opts <- docopt(doc)
+endsnippet

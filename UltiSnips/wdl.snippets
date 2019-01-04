@@ -1,0 +1,15 @@
+snippet task "task" b
+
+task ${1:task_name} {
+    File ${2:filename}
+	command <<<
+		${3:command}
+	>>>
+	runtime {
+	}
+	output {
+
+	}
+
+}
+endsnippet
