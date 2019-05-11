@@ -1,3 +1,55 @@
+snippet basic "Description" b
+workflow myworkflow {
+  File df_in
+  File? row_filter_in
+  File? col_filter_in
+  String? col_whitelist_index_in
+  String? output_name
+  call parse_and_filter {
+      input: infile=df_in,
+             row_filter=row_filter_in,
+             col_filter=col_filter_in,
+             col_whitelist_index=col_whitelist_index_in,
+             output_name=output_name
+  }
+}
+
+task parse_and_filter {
+  File infile
+  File? row_filter
+  File? col_filter
+  String? col_whitelist_index
+  String? output_name
+  String prefix = basename(infile, ".csv")
+  String outfile = select_first([output_name, "${prefix}_out.csv"])
+
+  command <<<
+    set -e -x -o pipefail
+    mkdir input_folder
+
+    set +x
+    for file in ${sep=' ' infiles}; do
+        mv "$file" input_folder/
+    done
+
+    python /code/shrink_data_frame.py \
+    ${"-i " + infile} \
+    ${"-o " + outfile} \
+    ${"-r " + row_filter} \
+    ${"--col-filter " + col_filter} \
+    ${"--col-whitelist-index " + col_whitelist_index}
+  >>>
+  output {
+    File response = "${outfile}"
+  }
+  runtime {
+    docker: "dx://"
+ }
+}
+endsnippet
+
+
+
 snippet task "task" b
 
 task ${1:task_name} {
@@ -12,4 +64,18 @@ task ${1:task_name} {
 	}
 
 }
+endsnippet
+
+
+snippet move_things_around "move_things_around" b
+
+command <<<
+set -e -x -o pipefail
+mkdir input_folder
+
+set +x
+for file in ${sep=' ' infiles}; do
+	mv "$file" batch_stats/
+done
+
 endsnippet

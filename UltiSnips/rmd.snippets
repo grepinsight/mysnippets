@@ -3,16 +3,11 @@ snippet meta
 title: "${1:}"
 author: "${2:Albert Lee}"
 output:
-  html_document:
-    number_sections: yes
-    toc: yes
-    code_folding: hide
-    toc_float: yes
-  html_notebook:
-    number_sections: yes
-    toc: yes
-    code_folding: hide
-    toc_float: yes
+  rmdformats::readthedown:
+    code_folding: show
+    lightbox: true
+    gallery: true
+    fig_caption: true
 ---
 
 **Author**: alee@counsyl.com <br/>
@@ -23,32 +18,76 @@ output:
 **Input(s)**: </br>
 **Output(s)**:</br>
 
+# Introduction
+
+
+# TLDR
+
+
+# Environment
+
+In order to perform the analysis, there are a couple of setting up steps required. You can skip this section and directly go to the [analysis](#data)
+
+* Script Root Directory: \`r getwd()\`
+
+## Setup
+
+\`\`\`{r setup}
+SCRIPT_ROOT_DIR <- getwd()
+PROJECT_ROOT_DIR <- rprojroot::find_rstudio_root_file()
+knitr::opts_knit\$set(root.dir = PROJECT_ROOT_DIR)
+knitr::opts_chunk\$set(fig.align='center')
+\`\`\`
+
+* Execution Root Directory: \`r getwd()\`
 
 ${0: # right your contents here}
+
 endsnippet
 
 snippet libt
 library(tidyverse)
+library(glue)
 endsnippet
 
 snippet lib
-# Libs
+## Libs
+
+The following is the list of libraries I will use to facilitate my analysis.
 
 \`\`\`\{r libs\}
-library(tidyverse)
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(glue))
+library(tictoc)
+library(counsylthemes)
+theme_set(theme_counsyl())
+
+shared <- new.env()
+source("src/shared.R", local=shared)
+tic("Knitting the document")
 \`\`\`
 
 # Funcs
+
+The following is the functions I implemented that I will use in my analysis.
 
 \`\`\`\{r funcs\}
 # Write your functions here
 \`\`\`
 
-# Data
+# Constants
+
+\`\`\`\{r constants\}
+\`\`\`
+
+# Data {#data}
 
 \`\`\`\{r data\}
 df <- read_csv("")
 \`\`\`
+
+# Data Cleaning
+
 
 # Main
 
@@ -57,10 +96,16 @@ ${0}
 
 # Conclusion
 
-# Senssion Information
+# Session Information
 
 \`\`\`\{r session_info\}
 sessionInfo()
+\`\`\`
+
+# Time to Knit
+
+\`\`\`\{r time_to_knit\}
+toc()
 \`\`\`
 endsnippet
 
@@ -68,9 +113,19 @@ endsnippet
 
 snippet ccc
 \`\`\`\{r ${1}\}
-
 ${0}
+\`\`\`
+endsnippet
 
+snippet ppp "split chunk"
+\`\`\`
+
+\`\`\`\{r ${1}\}
+endsnippet
+
+snippet "```" "chunk" rbA
+\`\`\`\{r ${1}\}
+${2}
 \`\`\`
 endsnippet
 
@@ -82,5 +137,64 @@ snippet info
 sessionInfo()
 \`\`\`
 
+endsnippet
+
+snippet doc "add roxygen2 snippet" b
+#' ${1:Title}
+#'
+#' @param env
+#'
+#' @return
+#' @export
+endsnippet
+snippet docopt
+"usage: ${1:SCRIPT_NAME} [ --input-df INPUT_DF]
+
+options:
+--input-df INPUT_DF  ${2:input csv file}]
+" -> doc
+
+library(methods)
+library(docopt)
+opts <- docopt(doc)
+endsnippet
+
+
+snippet f "function"
+function() {
+  ${1}
+}
+endsnippet
+
+snippet func "func"
+function() {
+  ${1}
+}
+endsnippet
+
+snippet function "function"
+function() {
+  ${1}
+}
+endsnippet
+
+snippet eq
+
+\$\$
+\begin{aligned}
+
+${0:x = }
+
+\end{aligned}
+\$\$
+endsnippet
+
+
+snippet "\\frac" "latex_frac" rA
+\frac{$1}{$2}
+endsnippet
+
+snippet "file\." "file_path" rA
+file.path(${2:SCRIPT_ROOT_DIR}, "${1}")
 endsnippet
 

@@ -1,3 +1,13 @@
+snippet doc "add roxygen2 snippet" b
+#' Title
+#'
+#' @param env
+#'
+#' @return
+#' @export
+#'
+#' @examples
+endsnippet
 snippet docopt
 "usage: ${1:SCRIPT_NAME} [ --input-df INPUT_DF]
 
@@ -5,6 +15,54 @@ options:
 --input-df INPUT_DF  ${2:input csv file}]
 " -> doc
 
+library(methods)
 library(docopt)
 opts <- docopt(doc)
+endsnippet
+
+
+snippet analysis "analysis script template" b
+
+"usage: `!p snip.rv=snip.fn` [--inputdir INPUTDIR] [--outputdir OUTPUTDIR]
+
+options:
+--inputdir INPUTDIR    input directory [default: models/basic_model.stan]
+--outputdir OUTPUTDIR  output directory [default: ./results/noname_hashvalue]
+
+" -> doc
+
+opts <- docopt::docopt(doc)
+docoptutils::print_defined(as.environment(opts))
+
+
+# housekeeping ----
+runtempdir <- tempdir()
+runfolder  <- file.path(runtempdir, unique_dirname)
+
+# libs ----
+
+# main ----
+
+write_in_runfolder(res, "test.rds")
+
+# results transfer ----
+dir.create(opts$OUTPUTDIR, recursive = TRUE, showWarnings=FALSE)
+file.copy(runfolder, OUTPUTDIR, recursive=TRUE)
+file.copy(sink_log, file.path(unique_dirname, "runtime.output.log"))
+
+endsnippet
+
+
+snippet test "Description" b
+
+`!p snip.rv=snip.fn`
+`echo ${BASH_SOURCE[0]}`
+
+endsnippet
+
+
+snippet uuid "UUID" !b
+`!p import uuid
+if not snip.c:
+    snip.rv = uuid.uuid4().hex`
 endsnippet
