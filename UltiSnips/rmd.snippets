@@ -33,7 +33,12 @@ In order to perform the analysis, there are a couple of setting up steps require
 ## Setup
 
 \`\`\`{r setup}
-SCRIPT_ROOT_DIR <- getwd()
+REPORT_OUTPUT_DIR <- getwd()
+if(exists("params")) {
+ if(!is.null(params$report_outputdir)) {
+    REPORT_OUTPUT_DIR <- params$report_outputdir
+  }
+}
 PROJECT_ROOT_DIR <- rprojroot::find_rstudio_root_file()
 knitr::opts_knit\$set(root.dir = PROJECT_ROOT_DIR)
 knitr::opts_chunk\$set(fig.align='center')
@@ -98,13 +103,13 @@ ${0}
 
 # Session Information
 
-\`\`\`\{r session_info\}
+\`\`\`\{r session_info, echo=FALSE\}
 sessionInfo()
 \`\`\`
 
 # Time to Knit
 
-\`\`\`\{r time_to_knit\}
+\`\`\`\{r time_to_knit, echo=FALSE\}
 toc()
 \`\`\`
 endsnippet
@@ -195,6 +200,6 @@ snippet "\\frac" "latex_frac" rA
 endsnippet
 
 snippet "file\." "file_path" rA
-file.path(${2:SCRIPT_ROOT_DIR}, "${1}")
+file.path(${2:REPORT_OUTPUT_DIR}, "${1}")
 endsnippet
 
