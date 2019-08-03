@@ -9,3 +9,10 @@ map_makefile: ## make makefile map
 ${0}
 endsnippet
 
+
+snippet r_makefile "Description" b
+.PHONY: docs
+docs:
+	Rscript -e 'if(!file.exists("R/testpac-package.R")){usethis::use_package_doc()}'
+	Rscript -e 'pkgdown::build_site()'
+endsnippet
