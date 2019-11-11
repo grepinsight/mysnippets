@@ -1,25 +1,38 @@
-snippet doc "add roxygen2 snippet" b
-#' Title
-#'
-#' @param env
-#'
-#' @return
-#' @export
-#'
-#' @examples
-endsnippet
-snippet docopt
-"usage: ${1:SCRIPT_NAME} [ --input-df INPUT_DF]
-
-options:
---input-df INPUT_DF  ${2:input csv file}]
-" -> doc
-
-library(methods)
-library(docopt)
-opts <- docopt(doc)
+snippet !lib "Basic libraries" b
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(counsylthemes))
+suppressPackageStartupMessages(library(glue))
+suppressPackageStartupMessages(library(here))
+suppressPackageStartupMessages(library(prequel))
+suppressPackageStartupMessages(library(nexusr))
+suppressPackageStartupMessages(library(fs))
+theme_set(theme_counsyl())
 endsnippet
 
+snippet !reload "Reload a library" b
+devtools::reload(devtools::inst("$1"))
+endsnippet
+
+snippet !sb "Sandbox" b
+## -- sandbox starts --
+${1}
+## -- sandbox ends --
+endsnippet
+
+snippet !shared "shared" b
+shared <- new.env()
+source("src/shared.R", local=shared)
+endsnippet
+
+snippet !vector "Description" b
+$0 <- `!p
+x = snip.v.text
+x = x.strip("\n")
+x = x.split("\n")
+x = ['"' + i + '"' for i in x if x is not "\n"]
+snip.rv = "c(" + ",".join(x) + ")"
+`
+endsnippet
 
 snippet analysis "analysis script template" b
 
@@ -35,31 +48,48 @@ opts <- docopt::docopt(doc)
 docoptutils::print_defined(as.environment(opts))
 
 
-# housekeeping ----
+ housekeeping ----
 runtempdir <- tempdir()
 runfolder  <- file.path(runtempdir, unique_dirname)
 
-# libs ----
+ libs ----
 
-# main ----
+ main ----
 
 write_in_runfolder(res, "test.rds")
 
-# results transfer ----
+ results transfer ----
 dir.create(opts$OUTPUTDIR, recursive = TRUE, showWarnings=FALSE)
 file.copy(runfolder, OUTPUTDIR, recursive=TRUE)
 file.copy(sink_log, file.path(unique_dirname, "runtime.output.log"))
 
 endsnippet
 
-
-snippet test "Description" b
-
-`!p snip.rv=snip.fn`
-`echo ${BASH_SOURCE[0]}`
-
+snippet doc "add roxygen2 snippet" b
+#' ${1:Title}
+#'
+#' @param env
+#'
+#' @return
+#' @export
 endsnippet
 
+snippet docopt
+"usage: ${1:SCRIPT_NAME} [ --input-df INPUT_DF]
+
+options:
+--input-df INPUT_DF  ${2:input csv file}]
+" -> doc
+
+library(methods)
+library(docopt)
+opts <- docopt(doc)
+endsnippet
+
+snippet memoise "Description" b
+suppressPackageStartupMessages(library(memoise))
+memcache <- memoise::cache_filesystem("~/.r.cache")
+endsnippet
 
 snippet uuid "UUID" !b
 `!p import uuid

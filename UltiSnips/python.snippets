@@ -56,4 +56,20 @@ pm.traceplot(trace)
 endsnippet
 
 
+snippet skip "Description" b
+@pytest.mark.skip(reason="$1")
+endsnippet
 
+snippet docg "Glossary"
+    .. glossary::
+
+        ${1:term}
+            ${2: description}
+
+endsnippet
+
+snippet !sci "Science Stack" b
+import numpy as np
+import pandas as pd
+import scipy.stats as stats
+endsnippet
