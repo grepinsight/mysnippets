@@ -1,11 +1,15 @@
 snippet !lib "Basic libraries" b
-suppressPackageStartupMessages(library(tidyverse))
-suppressPackageStartupMessages(library(counsylthemes))
-suppressPackageStartupMessages(library(glue))
-suppressPackageStartupMessages(library(here))
-suppressPackageStartupMessages(library(prequel))
-suppressPackageStartupMessages(library(nexusr))
-suppressPackageStartupMessages(library(fs))
+library <- function(...) {
+  suppressPackageStartupMessages(base::library(...))
+}
+library(tidyverse)
+library(counsylthemes)
+library(glue)
+library(here)
+library(prequel)
+library(nexusr)
+library(fs)
+library(usethis)
 theme_set(theme_counsyl())
 endsnippet
 
@@ -78,7 +82,7 @@ snippet docopt
 "usage: ${1:SCRIPT_NAME} [ --input-df INPUT_DF]
 
 options:
---input-df INPUT_DF  ${2:input csv file}]
+--input-df INPUT_DF  ${2:input csv file}
 " -> doc
 
 library(methods)
@@ -95,4 +99,108 @@ snippet uuid "UUID" !b
 `!p import uuid
 if not snip.c:
     snip.rv = uuid.uuid4().hex`
+endsnippet
+
+snippet !importFrom "Description" b
+#' @importFrom purrr map
+#' @importFrom dplyr bind_rows filter mutate
+#' @importFrom magrittr %>%
+endsnippet
+
+snippet !func "Description"
+funcname <- function() {
+}
+endsnippet
+
+
+snippet !sep "Separator" b
+# -----------------------------------------------------------------
+endsnippet
+
+
+snippet !!sep "Description" b
+`!p
+SEP_DEFAULT_SIZE = 70
+x = snip.v.text
+x = x.strip()
+text_len = len(x)
+if text_len > 0:
+   remainder = SEP_DEFAULT_SIZE - (text_len + 2)
+   sep = "-" * remainder
+   snip.rv = f"# {x} {sep}"
+`
+endsnippet
+
+snippet meta "Description" b
+#' ---
+#' title: "$1"
+#' author: "Albert Lee"
+#' date: "\`r Sys.Date()\`"
+#' output:
+#'   rmdformats::readthedown:
+#'     code_folding: hide
+#'     lightbox: true
+#'     gallery: true
+#'     fig_caption: true
+#'     fig_width: 14
+#'     fig_height: 8
+#'     df_print: kable
+#'     number_sections: true
+#' ---
+
+#+ include=FALSE
+knitr::opts_chunk$set(eval = FALSE)
+
+display_graphics <- function(path) {
+	knitr::include_graphics(normalizePath(path))
+}
+
+library <- function(...) {
+  suppressPackageStartupMessages(base::library(...))
+}
+
+endsnippet
+
+
+snippet !s "Description" b
+#'
+#' ---
+#'
+endsnippet
+
+snippet !h1 "Description" b
+
+
+#'
+#' ---
+#'
+#' # ${1: Title}
+
+${0}
+endsnippet
+
+snippet !h2 "Description" b
+
+
+#'
+#' ---
+#'
+#' ## ${1: Title}
+
+${0}
+endsnippet
+
+
+snippet !m "Description" b
+${VISUAL:inside text/^/#' /mg}
+endsnippet
+
+snippet !c "Description" b
+${VISUAL:inside text/^#('|\+) //mg}
+endsnippet
+
+
+snippet !titlecase "Title transformation"
+${1:a text}
+${1/\w+\s*/\u$0/g:test}
 endsnippet
