@@ -422,3 +422,123 @@ endsnippet
 snippet p4 "Description"
 hi
 endsnippet
+
+
+snippet labt "lab title" b
+labs(title="$1") ${0:+}
+endsnippet
+
+snippet labx "lab title" b
+labs(x="$1") ${0:+}
+endsnippet
+
+
+snippet meta2 "Description" b
+---
+title: "${1:}"
+author: "${2:Albert Lee}"
+date: "\`r Sys.Date()\`"
+output:
+  rmdformats::readthedown:
+    code_folding: hide
+    lightbox: true
+    gallery: true
+    fig_caption: true
+    fig_width: 14
+    fig_height: 8
+params:
+  data: "NO_INPUT"
+---
+\`\`\`{r setup, include=FALSE}
+REPORT_OUTPUT_DIR <- getwd()
+if(exists("params")) {
+ if(!is.null(params$report_outputdir)) {
+    REPORT_OUTPUT_DIR <- params$report_outputdir
+  }
+}
+PROJECT_ROOT_DIR <- rprojroot::find_rstudio_root_file()
+knitr::opts_knit\$set(root.dir = PROJECT_ROOT_DIR)
+knitr::opts_chunk\$set(fig.align='center')
+
+cache_fig_dir <- glue::glue("{REPORT_OUTPUT_DIR}/_cache_and_figs/")
+dir.create(cache_fig_dir, showWarnings=FALSE)
+knitr::opts_chunk\$set(fig.path=cache_fig_dir)
+knitr::opts_chunk\$set(cache.path=cache_fig_dir)
+knitr::opts_chunk\$set(cache = TRUE)
+
+options(rlang_trace_top_env = rlang::current_env())
+options(error = function() {
+  sink()
+  print(rlang::trace_back(bottom = sys.frame(-1)), simplify = "none")
+})
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+\`\`\`
+endsnippet
+
+snippet !!sep "Description" b
+`!p
+SEP_DEFAULT_SIZE = 70
+x = snip.v.text
+x = x.strip()
+text_len = len(x)
+if text_len > 0:
+   remainder = SEP_DEFAULT_SIZE - (text_len + 2)
+   sep = "-" * remainder
+   snip.rv = f"# {x} {sep}"
+`
+endsnippet
+
+
+snippet !exec "Executive summary" b
+# Executive Summary
+
+<style>
+div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "blue">
+
+- First conclusion
+- Second conclusion
+
+</div>
+
+endsnippet
+
+
+snippet meta3 "Description" b
+---
+title: "${1:}"
+author: "${2:Albert Lee}"
+date: "\`r Sys.Date()\`"
+output:
+  rmdformats::readthedown:
+    code_folding: hide
+    lightbox: true
+    gallery: true
+    fig_caption: true
+    fig_width: 14
+    fig_height: 8
+    df_print: kable
+    number_sections: true
+params:
+  data: "NO_INPUT"
+---
+
+<!--
+
+# Settings {.exclude}
+
+-->
+$0
+endsnippet
+
+
+snippet !opt "Description" b
+\`\`\`{r include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+knitr::opts_chunk$set(cache = TRUE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+\`\`\`
+endsnippet
