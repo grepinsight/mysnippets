@@ -204,3 +204,12 @@ snippet !titlecase "Title transformation"
 ${1:a text}
 ${1/\w+\s*/\u$0/g:test}
 endsnippet
+
+
+snippet !test "Description" b
+test_that("${1:Name your test}", {
+
+	${0}
+
+})
+endsnippet

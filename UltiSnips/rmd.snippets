@@ -11,6 +11,8 @@ output:
     fig_caption: true
     fig_width: 14
     fig_height: 8
+    df_print: kable
+    number_sections: true
 params:
   data: "NO_INPUT"
 ---
@@ -367,6 +369,9 @@ endsnippet
 snippet geom_his "Description"
 geom_histogram($1)
 endsnippet
+snippet geom_hist "Description"
+geom_histogram($1)
+endsnippet
 
 snippet !reload "Reload a library" b
 devtools::reload(devtools::inst("$1"))
@@ -385,13 +390,17 @@ endsnippet
 
 
 snippet !lib "Basic libraries" b
-suppressPackageStartupMessages(library(tidyverse))
-suppressPackageStartupMessages(library(counsylthemes))
-suppressPackageStartupMessages(library(glue))
-suppressPackageStartupMessages(library(here))
-suppressPackageStartupMessages(library(prequel))
-suppressPackageStartupMessages(library(nexusr))
-suppressPackageStartupMessages(library(fs))
+library <- function(...) {
+  suppressPackageStartupMessages(base::library(...))
+}
+library(tidyverse)
+library(glue)
+library(here)
+library(prequel)
+library(nexusr)
+library(fs)
+library(usethis)
+library(counsylthemes)
 theme_set(theme_counsyl())
 endsnippet
 
