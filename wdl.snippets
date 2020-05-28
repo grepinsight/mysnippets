@@ -1,3 +1,80 @@
+# Version
+snippet ver "version"
+version 1.0
+endsnippet
+
+# Types
+snippet S "String"
+String $1
+endsnippet
+
+snippet F "Float"
+Float $1
+endsnippet
+
+snippet Fl "Float"
+Float $1
+endsnippet
+
+snippet Flo "Float"
+Float $1
+endsnippet
+
+# Extra
+snippet rscript "Description" b
+cd runfolder && \
+mkdir -p ~{output_dir} && \
+Rscript -e "rmarkdown::render(
+  input = 'rmd_source.Rmd',
+  params=list(),
+  # output_file='~{output_file}',
+  # output_dir='~{output_dir}'
+)
+endsnippet
+
+snippet scatter "Scatter job" b
+scatter (elem in list ) {
+  call task {
+    input: task_input = elem
+  }
+}
+endsnippet
+
+snippet A "Array" b
+Array[${1:File}] ${2:name_of_array} ${3:=${0: }}
+endsnippet
+
+snippet t "task template" b
+task task_name {
+    input {
+    }
+    command <<<
+        command
+    >>>
+    runtime {
+    }
+    output {
+
+    }
+
+}
+endsnippet
+
+snippet runtime "Block: Runtime" b
+runtime {
+  docker: "quay.io/myriadtest01/bioinf-2403--ffe-ff-inferred-retraining-nonpregnant-main:manual_bioinf_2403"
+  dx_instance_type: "mem3_ssd1_v2_x16"
+}
+endsnippet
+
+snippet read_s "read string" b
+read_string($1)
+endsnippet
+
+snippet std "standard output"
+stdout()
+endsnippet
+
 snippet basic "Description" b
 workflow myworkflow {
   File df_in

@@ -1,3 +1,19 @@
+snippet pickle "Description" b
+with open("${2}.pkl", "wb") as fp:
+    pickle.dump(${1}, fp)
+${0}
+endsnippet
+snippet pd "Description" b
+with open("${2}.pkl", "wb") as fp:
+    pickle.dump(${1}, fp)
+${0}
+endsnippet
+
+snippet pl "Description" b
+with open("${1}.pkl", "wb") as fp:
+    pickle.load(fp)
+${0}
+endsnippet
 snippet main
 if __name__ == '__main__':
 	defopt.run(main)
